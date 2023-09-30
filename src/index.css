@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .from-bg {
+        background: url(./assets/wallpaperflare.com_wallpaper.jpg) no-repeat;
+        @apply min-h-screen w-full bg-center bg-cover;
+    }
+}
