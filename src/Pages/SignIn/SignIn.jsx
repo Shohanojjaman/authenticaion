@@ -1,18 +1,19 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { IoLockClosed, IoMailOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import auth from '../../../firebase.config';
+import { AuthContext } from '../../Components/AuthProvider';
 
 const SignIn = () => {
+  const { signInUser, user } = useContext(AuthContext);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [error, setError] = useState('');
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
   const uppercaseRegex = /(?=.*?[A-Z])/;
   const lowercaseRegex = /(?=.*?[a-z])/;
@@ -85,7 +86,7 @@ const SignIn = () => {
       return;
     }
 
-    signInWithEmailAndPassword(auth, emailValue, passwordValue)
+    signInUser(emailValue, passwordValue)
       .then((result) => {
         toast.success('Successfully sign in!', {
           position: 'top-center',
@@ -97,6 +98,7 @@ const SignIn = () => {
           progress: undefined,
           theme: 'colored',
         });
+        navigate('/');
       })
       .catch((error) => {
         toast.error(`${error.message}`, {
@@ -112,13 +114,19 @@ const SignIn = () => {
       });
   };
 
+  console.log(user);
   return (
-    <div>
+    <div className="from-bg">
       <Helmet>
         <title>Sign In | Authentication</title>
       </Helmet>
 
-      <section className="from-bg flex justify-center items-center min-h-screen w-full bg-center bg-cover">
+      <div className="navbar">
+        <Link to={'/'} className="btn btn-ghost normal-case text-xl text-white">
+          Authentication
+        </Link>
+      </div>
+      <section className="flex justify-center items-center min-h-screen w-full bg-center bg-cover">
         <div className="relative w-96 h-[450px] bg-transparent border-2 border-solid border-[#ffffff80] rounded-3xl backdrop-blur-lg flex justify-center items-center text-white">
           <form onSubmit={handleSignInSubmit}>
             <h2 className="text-4xl font-bold text-center">Sign In</h2>
