@@ -3,6 +3,7 @@ import MainLayout from '../Layout/MainLayout';
 import Home from '../Pages/Home/Home';
 import SignIn from '../Pages/SignIn/SignIn';
 import SignUp from '../Pages/SignUp/SignUp';
+import PrivateRoute from './PrivateRoute';
 
 const MainRoutes = createBrowserRouter([
   {
@@ -21,6 +22,22 @@ const MainRoutes = createBrowserRouter([
         path: '/signup',
         element: <SignUp />,
       },
+      {
+        path: '/profile',
+        element: <PrivateRoute>Profile</PrivateRoute>,
+      },
+      {
+        path: '/about',
+        element: <>About</>,
+      },
+      {
+        path:'/blog',
+        element:<>Blog</>
+      },
+      {
+        path:'/settings',
+        element:<PrivateRoute>Settings</PrivateRoute>
+      }
     ],
   },
 ]);
